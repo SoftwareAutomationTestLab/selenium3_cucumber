@@ -1,0 +1,23 @@
+   
+hub:
+  
+  image : selenium/hub:3.14
+  
+
+chromenode:
+   
+   image : selenium/node-chrome-debug:latest
+   links:
+    [hub]
+    
+mvn:
+  
+  image: maven:3.5.4
+  volumes:
+    - ./:/usr/src/mvn-src
+  working_dir: /usr/src/mvn-src
+  command: mvn clean  test   -Dselenium-hub.host=hub -Dmaven.wagon.http.ssl.insecure=true
+  links:
+    [hub,chromenode]
+   
+ 
